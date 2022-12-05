@@ -16,6 +16,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.fla.is/gestir/</loc>
+         <lastmod>2022-12-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.fla.is/hugbunadur/</loc>
          <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
