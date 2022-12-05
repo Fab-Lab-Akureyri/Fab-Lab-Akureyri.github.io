@@ -26,6 +26,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://www.fla.is/sattmalinn/</loc>
+         <lastmod>2022-12-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://www.fla.is/umokkur/</loc>
          <lastmod>2022-12-05</lastmod>
          <changefreq>daily</changefreq>
