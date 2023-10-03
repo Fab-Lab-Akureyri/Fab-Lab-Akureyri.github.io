@@ -654,72 +654,84 @@
 </code></pre>
 <p><strong>Vinsamlegast staðfestið að ferillinn virki eðlilegur, t.d. hér:</strong> <a href="https://ncviewer.com/">NC Viewer</a></p>
 <hr />
-<p><input type="file" id="fileInput">
-<button id="modifyButton" onclick="modifyFile()" style="background-color: #555555; color: white; padding: 12px 20px; border: none; cursor: pointer; width: 100%; opacity: 0.9;">Modify G-Code</button></p>
+<div id="tool">
+
+<input type="file" id="fileInput" accept=".txt,.nc,.gcode">
+
+<br>
+
+<button style="background-color: #4CAF50; border: none; color: white; padding: 12px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 8px; transition-duration: 0.4s;" onclick="generateMultiPass()">Modify G-Code</button>
+
+<br>
+
+<a id="downloadLink" style="display: none;">Download Modified File</a>
+
+</div>
+
+<hr />
 <script>
-function modifyFile() {
+async function generateMultiPass() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
-    const button = document.getElementById('modifyButton');
-
     if (!file) {
-        alert('Please select a file!');
+        alert('Please select a G-code file.');
         return;
     }
+    const fileText = await file.text();
 
-    const reader = new FileReader();
-    reader.onload = function (e) {
-        const lines = e.target.result.split('\n');
+    const inputGcode = fileText.split('\n');
+    let outputGcode = '';
+    let zDepth;
 
-        let originalZDepth = null;
-        let zDepthLineIndex = null;
-        for (let i = 0; i < lines.length; i++) {
-            const match = lines[i].match(/G01 F200 Z(-\d+\.\d+)/);
-            if (match) {
-                originalZDepth = parseFloat(match[1]);
-                zDepthLineIndex = i;
+    // Find the initial Z-depth
+    for (let line of inputGcode) {
+        if (line.includes("G01") && line.includes("Z")) {
+            const zValue = line.split("Z")[1].trim();
+            if (!isNaN(zValue) && zValue < 0) {
+                zDepth = parseFloat(zValue);
                 break;
             }
         }
+    }
 
-        if (originalZDepth === null) {
-            alert('Original Z depth not found.');
-            return;
+    if (!zDepth) {
+        alert("Z-depth not found in the input G-code.");
+        return;
+    }
+
+    const increments = [zDepth / 3, (2 * zDepth) / 3, zDepth];
+
+    // Write initial header
+    for (let line of inputGcode) {
+        if (line.startsWith("G00") || line.startsWith("G01")) {
+            break;
         }
+        outputGcode += line + "\n";
+    }
 
-        if (zDepthLineIndex === null) {
-            alert('Z depth line not found.');
-            return;
+    // Add command to start spindle
+    outputGcode += "M03 S5000.0\n";
+
+    for (let depth of increments) {
+        for (let line of inputGcode) {
+            if (line.includes("G01") && line.includes("Z")) {
+                outputGcode += "G01 F200 Z" + depth.toFixed(3) + "\n";
+            } else if (line.startsWith("G00") || line.startsWith("G01")) {
+                outputGcode += line + "\n";
+            }
         }
+    }
 
-        const g01StartIndex = lines.findIndex(line => /G01 F200 X\d+\.\d+ Y\d+\.\d+/.test(line));
-        if (g01StartIndex === -1) {
-            alert('G01 lines not found.');
-            return;
-        }
+    // Add M05 and M30 after the last pass
+    outputGcode += "M05\nM30\n";
 
-        let modifiedLines = lines.slice(0, zDepthLineIndex);
-
-        [1 / 3, 2 / 3, 1].forEach(multiplier => {
-            modifiedLines.push(`G01 F200 Z${(originalZDepth * multiplier).toFixed(3)}`);
-            modifiedLines = modifiedLines.concat(lines.slice(g01StartIndex, zDepthLineIndex), lines.slice(zDepthLineIndex + 1));
-        });
-
-        const modifiedContent = modifiedLines.join('\n');
-        const blob = new Blob([modifiedContent], {type: 'text/plain'});
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'modified_' + file.name;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        button.style.backgroundColor = '#4CAF50';
-        button.style.color = 'white';
-        button.style.padding = '14px 20px';
-        button.style.borderRadius = '4px';
-    };
-    reader.readAsText(file);
+    // Prepare and present download link
+    const blob = new Blob([outputGcode], { type: "text/plain" });
+    const downloadUrl = URL.createObjectURL(blob);
+    const downloadLink = document.getElementById('downloadLink');
+    downloadLink.href = downloadUrl;
+    downloadLink.download = "processed_gcode.nc";
+    downloadLink.style.display = "block";
 }
 </script>
 
