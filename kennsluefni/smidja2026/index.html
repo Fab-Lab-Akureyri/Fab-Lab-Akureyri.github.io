@@ -694,6 +694,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#3d-honnun-og-prentun" class="md-nav__link">
+    <span class="md-ellipsis">
+      3D hönnun og prentun
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3D hönnun og prentun">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#honnunarforrit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hönnunarforrit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openscad-koi" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenSCAD kóði
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenSCAD kóði">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#einfalt-brakkett" class="md-nav__link">
+    <span class="md-ellipsis">
+      Einfalt brakkett
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tafla" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tafla
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fusion-360" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fusion 360
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1004,6 +1070,72 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#3d-honnun-og-prentun" class="md-nav__link">
+    <span class="md-ellipsis">
+      3D hönnun og prentun
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3D hönnun og prentun">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#honnunarforrit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hönnunarforrit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openscad-koi" class="md-nav__link">
+    <span class="md-ellipsis">
+      OpenSCAD kóði
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenSCAD kóði">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#einfalt-brakkett" class="md-nav__link">
+    <span class="md-ellipsis">
+      Einfalt brakkett
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tafla" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tafla
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fusion-360" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fusion 360
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1035,6 +1167,160 @@
 <li>
 <p><a href="../../files/kennsluefni/inkscape/simastandur.pdf">Símastandur (PDF)</a></p>
 </li>
+</ul>
+<h2 id="3d-honnun-og-prentun">3D hönnun og prentun</h2>
+<h3 id="honnunarforrit">Hönnunarforrit</h3>
+<ul>
+<li>
+<p><a href="https://www.tinkercad.com/">Tinkercad</a></p>
+</li>
+<li>
+<p><a href="https://sketchup.trimble.com/">SketchUp</a></p>
+</li>
+<li>
+<p><a href="https://www.onshape.com/">Onshape</a></p>
+</li>
+<li>
+<p><a href="https://www.freecad.org/">FreeCAD</a></p>
+</li>
+<li>
+<p><a href="https://openscad.org/">OpenSCAD</a></p>
+</li>
+<li>
+<p><a href="https://www.autodesk.com/products/fusion-360/personal">Fusion  360</a></p>
+</li>
+</ul>
+<h3 id="openscad-koi">OpenSCAD kóði</h3>
+<h4 id="einfalt-brakkett">Einfalt brakkett</h4>
+<pre><code>$fn = 50;
+
+difference() {
+    cube([100,70,4]);
+
+    translate([30,35,0])
+        cylinder(h=5, d=16);
+
+    translate([70,35,0])
+        cylinder(h=5, d=16);
+}
+</code></pre>
+<p><img alt="Brakkett" src="../img/kennsluefni/openscad/brakkett.jpg" /></p>
+<h4 id="tafla">Tafla</h4>
+<pre><code>// Parametric SKÅDIS-style pegboard (optimized)
+// Origin: (0,0,0) at bottom-left of front face; Z is thickness outward (+Z)
+
+//////////////////////////
+// User parameters
+//////////////////////////
+material_thickness = 5;    // mm
+board_width        = 1000; // mm
+board_height       = 400; // mm
+
+//////////////////////////
+// Defaults (SKÅDIS-ish)
+//////////////////////////
+slot_w     = 5;    // mm
+slot_l     = 15;   // mm
+pitch_x    = 40;   // mm
+pitch_y    = 20;   // mm
+stagger    = true; // alternate rows shift by pitch_x/2
+min_margin = 10;   // mm (keeps slots away from edges)
+
+corner_r   = 10;   // mm (rounded corner radius)
+
+$fn = 16;          // smoothness for round parts
+
+//////////////////////////
+// Helpers
+//////////////////////////
+
+// 2D rounded rectangle using hull of 4 circles
+module rounded_rect_2d(w, h, r) {
+    r2 = min(r, min(w, h)/2);
+    hull() {
+        translate([r2,     r2])     circle(r=r2);
+        translate([w-r2,   r2])     circle(r=r2);
+        translate([w-r2, h-r2])     circle(r=r2);
+        translate([r2,   h-r2])     circle(r=r2);
+    }
+}
+
+// 2D obround slot (rounded rectangle) centered at origin, vertical orientation
+module slot_2d(width, length) {
+    r = width/2;
+    L = max(length, width);
+    hull() {
+        translate([0,  (L/2 - r)]) circle(r=r);
+        translate([0, -(L/2 - r)]) circle(r=r);
+    }
+}
+
+//////////////////////////
+// Main model (optimized)
+//////////////////////////
+
+module pegboard(
+    w, h, t,
+    slot_w, slot_l,
+    px, py,
+    stagger_rows,
+    margin,
+    corner_r
+){
+    // Compute usable center ranges so slots don't violate margins
+    x_min = margin + slot_w/2;
+    x_max = w - (margin + slot_w/2);
+    y_min = margin + slot_l/2;
+    y_max = h - (margin + slot_l/2);
+
+    valid = (x_max &gt;= x_min) &amp;&amp; (y_max &gt;= y_min);
+
+    // --- 2D boolean first, then extrude once ---
+    linear_extrude(height=t)
+    difference() {
+        // Board outline (2D)
+        rounded_rect_2d(w, h, corner_r);
+
+        // Slots union (2D), subtracted from board outline
+        if (valid) {
+            union() {
+                // number of rows that fit
+                j_max = floor((y_max - y_min) / py);
+
+                for (j = [0 : j_max]) {
+                    y = y_min + j*py;
+                    shift = (stagger_rows &amp;&amp; (j % 2 == 1)) ? (px/2) : 0;
+
+                    // compute k-range directly (no arrays)
+                    k0 = ceil((x_min - shift) / px);
+                    k1 = floor((x_max - shift) / px);
+
+                    for (k = [k0 : k1]) {
+                        x = shift + k*px;
+                        translate([x, y])
+                            slot_2d(slot_w, slot_l);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Render
+pegboard(
+    board_width, board_height, material_thickness,
+    slot_w, slot_l,
+    pitch_x, pitch_y,
+    stagger,
+    min_margin,
+    corner_r
+);
+</code></pre>
+<p><img alt="Tafla" src="../img/kennsluefni/openscad/tafla.jpg" /></p>
+<p>Hér má finna það sem þarf til að búa til <a href="https://github.com/franpoli/OpenSCADutil/tree/master/libraries/ikea_skadis_pegboard_accessories">Ikea Skadis</a> aukahluti</p>
+<h3 id="fusion-360">Fusion 360</h3>
+<ul>
+<li><a href="../../files/kennsluefni/fusion/vinnusvaedi.pdf">Fusion 360 skýringar (PDF)</a></li>
 </ul>
 
 
